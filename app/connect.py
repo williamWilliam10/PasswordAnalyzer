@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 from .extract_features import extract_features
-from train_model import run_model
+from .train_model import run_model
 from flask_cors import CORS
-from password_generator import generate_secure_password
-from bd_connect import get_db_connection
-from encrypt_decrypt import encrypt_password
-from hash import hash_password
+from .password_generator import generate_secure_password
+from .bd_connect import get_db_connection
+from .encrypt_decrypt import encrypt_password
+from .hash import hash_password
 import mysql.connector
-from brute_force import brute_force_attack
-from dictionary_attack import dictionary_attack
+from .brute_force import brute_force_attack
+from .dictionary_attack import dictionary_attack
 import hashlib
 app = Flask(__name__)  # Créez d'abord l'application Flask
 CORS(app)  # Ensuite, appliquez CORS
