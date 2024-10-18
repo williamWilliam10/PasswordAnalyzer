@@ -3,7 +3,7 @@ import time
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-from extract_features import extract_features
+from .extract_features import extract_features
 
 # Fonction pour charger et préparer les données
 def load_data(test_file='weak_passwords.txt',

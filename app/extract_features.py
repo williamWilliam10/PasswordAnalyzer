@@ -1,4 +1,3 @@
-import re
 def extract_features(password):
     # Fonction qui extrait des caractéristiques d'un mot de passe donné
 

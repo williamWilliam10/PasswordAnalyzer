@@ -1,6 +1,6 @@
-from train_model import run_model  # Importation de la fonction run_model depuis le fichier train_model
-from extract_features import extract_features  # Importation de la fonction extract_features depuis le fichier extract_features
-from password_generator import generate_secure_password
+from .train_model import run_model  # Importation de la fonction run_model depuis le fichier train_model
+from .extract_features import extract_features  # Importation de la fonction extract_features depuis le fichier extract_features
+from .password_generator import generate_secure_password
 import pandas as pd  # Importation de la bibliothèque pandas pour la manipulation de données
 
 
