@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import pandas as pd
-from app.extract_features import extract_features
+from extract_features import extract_features
 from train_model import run_model
 from flask_cors import CORS
 from password_generator import generate_secure_password
