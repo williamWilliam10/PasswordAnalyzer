@@ -1,85 +1,220 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #000;
+  overflow: hidden; /* Empêche la barre de défilement */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#000, #0f0, #000);
+  animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+section span {
+  position: relative;
+  display: block;
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+  background: #181818;
+  z-index: 2;
+  transition: 1.5s;
+}
+
+section span:hover {
+  background: #0f0;
+  transition: 0s;
+}
+
+section .signin {
+  position: absolute; /* Change absolute to relative for proper centering */
+  width: 400px;
+  background: #222;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  border-radius: 4px;
+  margin: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+}
+
+section .signin .content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+section .signin .content h2 {
+  font-size: 2em;
+  color: #0f0;
+  text-transform: uppercase;
+}
+
+section .signin .content .form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 25px;
 }
 
-.App-link {
-  color: #61dafb;
+section .signin .content .form .inputBox {
+  display: flex;
+  align-items: center; /* Align the input and button at the same height */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+section .signin .content .form .inputBox input {
+  width: 70%;
+  background: #333;
+  border: none;
+  outline: none;
+  padding: 15px 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+section .signin .content .form .inputBox button {
+  background-color: #0f0;
+  border: none;
+  padding: 15px;
+  color: #000;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 10px; /* Space between the input and the button */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0f0;
+  color: #000;
+}
+
+p {
+  transition: opacity 0.3s ease;
+}
+
+p.hidden {
+  opacity: 0;
+}
+
+input[type="submit"]:active {
+  opacity: 0.6;
+}
+/* Styles de base */
+section span {
+  width: calc(6.25vw - 2px);
+  height: calc(6.25vw - 2px);
+}
+
+
+
+/* Media Query pour les écrans de moins de 900px */
+@media (max-width: 900px) {
+  section span {
+    width: calc(10vw - 2px);
+    height: calc(10vw - 2px);
   }
-  to {
-    transform: rotate(360deg);
+
+  .signin {
+    width: 90%; /* Ajustement de la largeur pour les écrans plus petits */
+    padding: 30px; /* Réduction du padding */
+    
   }
 }
 
-/* App.css */
-
-.container {
-  animation: fadeIn 0.5s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+/* Media Query pour les écrans de moins de 600px */
+@media (max-width: 600px) {
+  section span {
+    width: calc(15vw - 2px); /* Augmenter la taille des spans */
+    height: calc(15vw - 2px);
   }
-  to {
-    opacity: 1;
+
+  .signin {
+    width: 95%; /* Utilisation presque complète de l'espace */
+    padding: 20px; /* Padding réduit pour maximiser l'espace */
+  }
+
+  .form {
+    gap: 15px; /* Réduction de l'espace entre les éléments */
+  }
+
+  .inputBox {
+    display: flex; /* Utilisation de flex pour aligner les éléments */
+    align-items: center; /* Centrage vertical */
+  }
+
+  .inputBox input {
+    flex: 1; /* Permet au champ de s'étendre pour occuper tout l'espace disponible */
+    min-width: 150px; /* Largeur minimale pour le champ */
+    padding: 15px; /* Padding pour rendre le champ plus confortable */
+    border-radius: 4px; /* Coins arrondis */
+    color: #fff; /* Couleur du texte */
+    background: #333; /* Couleur de fond */
+  }
+
+  .inputBox button {
+    margin-left: 10px; /* Espacement entre le champ et le bouton */
+    padding: 15px; /* Ajustement du padding */
   }
 }
 
-.input-group {
-  animation: slideIn 0.5s;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
+/* Media Query pour les écrans de moins de 400px */
+@media (max-width: 400px) {
+  section span {
+    width: calc(25vw - 2px); /* Ajustement pour écrans très petits */
+    height: calc(25vw - 2px);
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+
+  .signin {
+    width: 100%; /* Utilisation de toute la largeur de l'écran */
+    padding: 15px; /* Padding réduit pour un meilleur ajustement */
+  }
+
+  .form {
+    gap: 10px; /* Espace réduit pour maximiser l'espace */
+  }
+
+  .inputBox input {
+    min-width: 100px; /* Largeur minimale plus petite pour les petits écrans */
   }
 }
-
-.btn {
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #0056b3; /* Change la couleur au survol */
-}
-
-.card {
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
