@@ -1,5 +1,5 @@
 import pytest
-from apk import app
+from connect import app
 
 
 @pytest.fixture
