@@ -1,1 +1,1 @@
-web: python -m app.connect
+web: python -m app.app
