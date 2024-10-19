@@ -10,17 +10,11 @@ from .hash import hash_password
 import mysql.connector
 from .brute_force import brute_force_attack
 from .dictionary_attack import dictionary_attack
-from waitress import serve
-import os
 
 app = Flask(__name__)
 
-# Configuration des variables d'environnement
-app.config['CORS_ORIGINS'] = os.environ.get('CORS_ORIGINS', 'https://smartpass.lowewilliam.com')
-app.config['DEBUG'] = os.environ.get('DEBUG', 'False') == 'True'
-
 # Configuration de CORS pour autoriser uniquement le domaine de votre frontend
-CORS(app, resources={r"/*": {"origins": app.config['CORS_ORIGINS']}})
+CORS(app, resources={r"/*": {"origins": "https://smartpass.lowewilliam.com"}})
 
 # Charger le modèle KNN
 model = run_model()
@@ -28,8 +22,8 @@ model = run_model()
 @app.route('/verifier', methods=['POST'])
 def verify_password():
     """Vérifie la force d'un mot de passe."""
-    data = request.get_json()
-    mot_de_passe = data.get('password')
+    data = request.get_json()  # Récupérer les données JSON de la requête
+    mot_de_passe = data.get('password')  # Récupérer le mot de passe
 
     if not mot_de_passe:
         return jsonify({'error': 'Aucun mot de passe fourni.'}), 400
@@ -50,7 +44,11 @@ def verify_password():
 def generate_password():
     """Génère un mot de passe sécurisé."""
     password = generate_secure_password()
+
+    # Chiffrement du mot de passe
     encrypted_password, key, iv = encrypt_password(password)
+
+    # Hachage pour la comparaison future
     hashed_password = hash_password(password)
 
     # Connexion à la base de données
@@ -62,7 +60,7 @@ def generate_password():
     cursor = connection.cursor()
 
     try:
-        # Sauvegarder dans la base de données
+        # Sauvegarder encrypted_password, key, iv, et hashed_password dans la base de données
         sql = """
         INSERT INTO passwords__list (password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
         VALUES (%s, %s, %s, %s, %s)
@@ -109,7 +107,7 @@ def attack_dictionary():
     """Teste la résistance d'un mot de passe avec une attaque par dictionnaire."""
     data = request.get_json()
     hashed_password = data.get('hashed_password')
-    dictionary_file = data.get('dictionary_file', 'dictionnaire.txt')
+    dictionary_file = data.get('dictionary_file', 'dictionnaire.txt')  # Nom de fichier par défaut
 
     if not hashed_password:
         return jsonify({'error': 'Aucun hachage de mot de passe fourni.'}), 400
@@ -118,4 +116,4 @@ def attack_dictionary():
     return jsonify(result)
 
 if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
