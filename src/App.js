@@ -11,7 +11,7 @@ function App() {
 
   const verifierMotDePasse = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/verifier', { password: motDePasse });
+      const response = await axios.post('https://web-production-b62ae.up.railway.app/verifier', { password: motDePasse });
       setResultat(`Le mot de passe est : ${response.data.force}`);
       setError('');
     } catch (error) {
@@ -22,7 +22,7 @@ function App() {
 
   const genererMotDePasse = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/generer');
+      const response = await axios.get('https://web-production-b62ae.up.railway.app/generer');
       setMotDePasseGenere(response.data.password);
       setError('');
     } catch (error) {
@@ -50,7 +50,7 @@ function App() {
                 placeholder="Entrez votre mot de passe"
                 aria-label="Mot de passe"
               />
-              <button className="btn " type="button" style={{backgroundColor:"#0f0"}} onClick={verifierMotDePasse}>
+              <button className="btn" type="button" style={{ backgroundColor: "#0f0" }} onClick={verifierMotDePasse}>
                 Vérifier
               </button>
             </div>
@@ -60,7 +60,7 @@ function App() {
             <button className="btn btn-secondary mt-1" type="button" onClick={genererMotDePasse}>
               Générer un mot de passe
             </button>
-            {motDePasseGenere && <p className="text-success">Mot de passe généré : <strong style={{color:"white"}}>{motDePasseGenere}</strong></p>}
+            {motDePasseGenere && <p className="text-success">Mot de passe généré : <strong style={{ color: "white" }}>{motDePasseGenere}</strong></p>}
           </div>
           <div className="card-footer text-success">
             Créez un mot de passe fort pour protéger vos informations !
