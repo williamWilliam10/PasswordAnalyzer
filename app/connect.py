@@ -10,6 +10,7 @@ from .hash import hash_password
 import mysql.connector
 from .brute_force import brute_force_attack
 from .dictionary_attack import dictionary_attack
+from waitress import serve
 import os
 
 app = Flask(__name__)
@@ -117,5 +118,4 @@ def attack_dictionary():
     return jsonify(result)
 
 if __name__ == '__main__':
-    # Pour un déploiement en production, utilisez un serveur WSGI comme Gunicorn
-    app.run(host='0.0.0.0', port=5000, debug=app.config['DEBUG'])
+    serve(app, host='0.0.0.0', port=5000)
