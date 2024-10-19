@@ -49,7 +49,7 @@ def generate_password():
     encrypted_password, key, iv = encrypt_password(password)
 
     # Hachage pour la comparaison future
-    hashed_password = hash_password(password)
+    hased_password = hash_password(password)
 
     # Connexion à la base de données
     connection = get_db_connection()
@@ -62,7 +62,7 @@ def generate_password():
     try:
         # Sauvegarder encrypted_password, key, iv, et hashed_password dans la base de données
         sql = """
-        INSERT INTO passwords_list (password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
+        INSERT INTO passwords_list (password_plain, encrypted_password, key_base64, iv_base64, hahed_password)
         VALUES (%s, %s, %s, %s, %s)
         """
         cursor.execute(sql, (
@@ -70,7 +70,7 @@ def generate_password():
             encrypted_password.hex(),
             key.hex(),
             iv.hex(),
-            hashed_password.decode()
+            hased_password.decode()
         ))
         connection.commit()
 
@@ -87,7 +87,7 @@ def generate_password():
         'encrypted_password': encrypted_password.hex(),
         'key': key.hex(),
         'iv': iv.hex(),
-        'hashed': hashed_password.decode()
+        'hashed': hased_password.decode()
     })
 
 @app.route('/attacker/brute_force', methods=['POST'])
