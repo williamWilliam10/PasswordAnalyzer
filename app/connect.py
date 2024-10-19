@@ -10,11 +10,11 @@ from .hash import hash_password
 import mysql.connector
 from .brute_force import brute_force_attack
 from .dictionary_attack import dictionary_attack
-
+import os
 app = Flask(__name__)
 
 # Configuration de CORS pour autoriser uniquement le domaine de votre frontend
-CORS(app, resources={r"/*": {"origins": "https://smartpass.lowewilliam.com"}})
+CORS(app, resources={r"/*": {"origins": ["https://smartpass.lowewilliam.com", "https://web-production-b62ae.up.railway.app"]}})
 
 # Charger le modèle KNN
 model = run_model()
@@ -116,4 +116,5 @@ def attack_dictionary():
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
