@@ -38,7 +38,7 @@ function App() {
       ))}
       <div className="signin">
         <div className="content">
-          <h2 className="text-center">SecureGen</h2>
+          <h2 className="text-center">Smart-Pass</h2>
           <div className="form">
             <div className="input-group">
               <input
