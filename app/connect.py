@@ -10,9 +10,11 @@ from .hash import hash_password
 import mysql.connector
 from .brute_force import brute_force_attack
 from .dictionary_attack import dictionary_attack
-import hashlib
-app = Flask(__name__)  # Créez d'abord l'application Flask
-CORS(app)  # Ensuite, appliquez CORS
+
+app = Flask(__name__)
+
+# Configuration de CORS pour autoriser uniquement le domaine de votre frontend
+CORS(app, resources={r"/*": {"origins": "https://smartpass.lowewilliam.com"}})
 
 # Charger le modèle KNN
 model = run_model()
@@ -40,54 +42,53 @@ def verify_password():
 
 @app.route('/generer', methods=['GET'])
 def generate_password():
-        """Génère un mot de passe sécurisé."""
-        password = generate_secure_password()
+    """Génère un mot de passe sécurisé."""
+    password = generate_secure_password()
 
-        """Chiffrement du mot de passe"""
-        encrypted_password, key, iv = encrypt_password(password)
+    # Chiffrement du mot de passe
+    encrypted_password, key, iv = encrypt_password(password)
 
-        # Hachage pour la comparaison future
-        hashed_password = hash_password(password)
+    # Hachage pour la comparaison future
+    hashed_password = hash_password(password)
 
-        # Connexion à la base de données
-        connection = get_db_connection()
+    # Connexion à la base de données
+    connection = get_db_connection()
 
-        if not connection:
-            return jsonify({'error': 'Erreur de connexion à la base de données'}), 500
+    if not connection:
+        return jsonify({'error': 'Erreur de connexion à la base de données'}), 500
 
-        cursor = connection.cursor()
+    cursor = connection.cursor()
 
-        try:
-            # Sauvegarder encrypted_password, key, iv, et hashed_password dans la base de données
-            sql = """
-            INSERT INTO passwords__list (password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
-            VALUES (%s, %s, %s, %s, %s)
-            """
-            cursor.execute(sql, (
-                password,
-                encrypted_password.hex(),
-                key.hex(),
-                iv.hex(),
-                hashed_password.decode()
-            ))
-            connection.commit()
+    try:
+        # Sauvegarder encrypted_password, key, iv, et hashed_password dans la base de données
+        sql = """
+        INSERT INTO passwords__list (password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql, (
+            password,
+            encrypted_password.hex(),
+            key.hex(),
+            iv.hex(),
+            hashed_password.decode()
+        ))
+        connection.commit()
 
-        except mysql.connector.Error as err:
-            print(f"Erreur MySQL: {err}")
-            return jsonify({'error': 'Erreur lors de l\'enregistrement dans la base de données.'}), 500
+    except mysql.connector.Error as err:
+        print(f"Erreur MySQL: {err}")
+        return jsonify({'error': 'Erreur lors de l\'enregistrement dans la base de données.'}), 500
 
-        finally:
-            cursor.close()
-            connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
-        return jsonify({
-            'password': password,
-            'encrypted_password': encrypted_password.hex(),
-            'key': key.hex(),
-            'iv': iv.hex(),
-            'hashed': hashed_password.decode()
-        })
-
+    return jsonify({
+        'password': password,
+        'encrypted_password': encrypted_password.hex(),
+        'key': key.hex(),
+        'iv': iv.hex(),
+        'hashed': hashed_password.decode()
+    })
 
 @app.route('/attacker/brute_force', methods=['POST'])
 def attack_brute_force():
@@ -100,7 +101,6 @@ def attack_brute_force():
 
     result = brute_force_attack(hashed_password)
     return jsonify(result)
-
 
 @app.route('/attacker/dictionary', methods=['POST'])
 def attack_dictionary():
@@ -115,6 +115,5 @@ def attack_dictionary():
     result = dictionary_attack(hashed_password, dictionary_file)
     return jsonify(result)
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
