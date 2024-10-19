@@ -5,10 +5,10 @@ import os
 def get_db_connection():
     try:
         connection = mysql.connector.connect(
-            host=os.environ.get("MYSQL_HOST", "junction.proxy.rlwy.net"),  # Hôte par défaut
-            port=int(os.environ.get("MYSQL_PORT", 10659)),  # Port par défaut
+            host=os.environ.get("MYSQL_HOST", "autorack.proxy.rlwy.net"),  # Hôte par défaut
+            port=int(os.environ.get("MYSQL_PORT", 42264)),  # Port par défaut
             user=os.environ.get("MYSQL_USER", "root"),  # Utilisateur MySQL par défaut
-            password=os.environ.get("MYSQL_PASSWORD", "koNVTUXkFZcbxYpQUfxPvyWQdZJyFYrA"),  # Mot de passe MySQL par défaut
+            password=os.environ.get("MYSQL_PASSWORD", "QPuiLNpduOsNAZdrTDRxCFWFBXOQUqgY"),  # Mot de passe MySQL par défaut
             database=os.environ.get("MYSQL_DATABASE", "railway")  # Nom de la base de données par défaut
         )
         if connection.is_connected():
