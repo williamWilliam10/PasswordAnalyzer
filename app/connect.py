@@ -14,7 +14,15 @@ import os
 app = Flask(__name__)
 
 # Configuration de CORS pour autoriser uniquement le domaine de votre frontend
-CORS(app, resources={r"/*": {"origins": ["https://smartpass.lowewilliam.com", "https://web-production-b62ae.up.railway.app"]}})
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "https://smartpass.lowewilliam.com",
+            "https://web-production-b62ae.up.railway.app",
+            "https://smartpass-production.up.railway.app/"
+        ]
+    }
+})
 
 # Charger le modèle KNN
 model = run_model()
