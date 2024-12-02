@@ -17,7 +17,7 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
         "origins": [
-            "https://smartpass-production.up.railway.app/",
+            "https://smartpass-production.up.railway.app",
             "https://smartpass.lowewilliam.com",
             "https://web-production-b62ae.up.railway.app"
 
