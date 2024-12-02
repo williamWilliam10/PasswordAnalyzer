@@ -11,6 +11,8 @@ import mysql.connector
 from .brute_force import brute_force_attack
 from .dictionary_attack import dictionary_attack
 import os
+import time
+import logging
 app = Flask(__name__)
 
 # Configuration de CORS pour autoriser uniquement le domaine de votre frontend
@@ -27,10 +29,16 @@ CORS(app, resources={
 
 # Charger le modèle KNN
 model = run_model()
-
+# Configurer le logging
+logging.basicConfig(level=logging.INFO)
+def log_execution_time(endpoint_name, start_time, end_time):
+    """Log le temps d'exécution d'un endpoint."""
+    duration = end_time - start_time
+    logging.info(f"{endpoint_name} a pris {duration:.4f} secondes pour s'exécuter.")
 @app.route('/verifier', methods=['POST'])
 def verify_password():
     """Vérifie la force d'un mot de passe."""
+    start_time = time.time()  # Début du chronométrage
     data = request.get_json()  # Récupérer les données JSON de la requête
     mot_de_passe = data.get('password')  # Récupérer le mot de passe
 
@@ -52,6 +60,7 @@ def verify_password():
 @app.route('/generer', methods=['GET'])
 def generate_password():
     """Génère un mot de passe sécurisé."""
+    start_time = time.time()  #
     password = generate_secure_password()
 
     # Chiffrement du mot de passe
@@ -90,6 +99,9 @@ def generate_password():
     finally:
         cursor.close()
         connection.close()
+
+    end_time = time.time()  # Fin du chronométrage
+    log_execution_time('generate_password', start_time, end_time)
 
     return jsonify({
         'password': password,
