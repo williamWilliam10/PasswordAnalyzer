@@ -80,7 +80,7 @@ def generate_password():
     try:
         # Sauvegarder encrypted_password, key, iv, et hashed_password dans la base de données
         sql = """
-        INSERT INTO passwords_list (password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
+        INSERT INTO passwords(password_plain, encrypted_password, key_base64, iv_base64, hashed_password)
         VALUES (%s, %s, %s, %s, %s)
         """
         cursor.execute(sql, (
