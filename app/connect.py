@@ -84,6 +84,7 @@ def generate_password():
         VALUES (%s, %s, %s, %s, %s)
         """
         cursor.execute(sql, (
+            password,
             encrypted_password.hex(),
             key.hex(),
             iv.hex(),
@@ -103,7 +104,7 @@ def generate_password():
     log_execution_time('generate_password', start_time, end_time)
 
     return jsonify({
-
+        'password': password,
         'encrypted_password': encrypted_password.hex(),
         'key': key.hex(),
         'iv': iv.hex(),
