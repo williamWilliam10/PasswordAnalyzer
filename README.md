@@ -1,4 +1,4 @@
-# SecurePassGen
+# SmartPass
 
 ## Description
 **SecurePassGen** est un système de génération de mots de passe sécurisés utilisant des modèles probabilistes et des techniques de traitement du langage naturel (NLP). Le système permet de générer des mots de passe robustes tout en excluant les séquences faciles à deviner et les mots courants.
